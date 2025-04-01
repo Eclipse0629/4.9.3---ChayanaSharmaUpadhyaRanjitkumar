@@ -1,44 +1,27 @@
 /*
-* Activity 4.9.3 and 4.9.4 
-* A text-based Fishing Game 
-* 
-* V1.0
-* 6/20/2020
-* Copyright(c) 2019 PLTW to present. All rights reserved
-*/
+ * Activity 4.9.3 and 4.9.4
+ * A text-based Fishing Game
+ */
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class GameUI
-{
-  // Utilities
-  Scanner console;
-
+import java.util.Scanner;
+import java.util.Scanner;
   private Player player;
 
-  /**
-   * Constructor for the GameTextBased class.
-   */
   public GameUI(Player player)
   {
     this.player = player;
     console = new Scanner(System.in);
   }
 
-  /*
-   * Append to the output area and prompt for input
-   * 
-   * @param s a String to append to the output
-   */
   public void setOutput(String s)
   {
     System.out.print(s);
     getInput();
   }
 
-  /*
-   * Show inventory items
-   */
   public void printInventory()
   {
     System.out.println("\nYour current inventory is: ");
@@ -53,35 +36,18 @@ public class GameUI
     }
   }
 
-  /*
-   * Add a player to the game and set the inventory and wallet values.
-   * 
-   * @param p player to be added
-   */
   public void playGame()
   {
     System.out.print("\nWelcome to the Fishing Game");
     goToForest();
   }
 
-  /*---------- public methods not to be called directly ----------*/
-
-  /*
-   * get the user's command
-   */
   public void getInput()
   {
     String input = console.nextLine();
     execCommand(input);
   }
 
-  /*---------- private/convenience methods ----------*/
- 
-  /**
-   * Execute the command entered by the player
-   * 
-   * @param input String command entered by the player
-   */
   private void execCommand(String input)
   {
     if (input.equals("quit") || input.equals("q") || input.equals("Q"))
@@ -103,7 +69,7 @@ public class GameUI
     }
     else if ((input.equals("no") || input.equals("n")) && player.getCurrentLocation().equals("lake"))
     {
-      goToForest();     
+      goToForest();    
     }
     else if ((input.equals("bait") || input.equals("b")) && player.getCurrentLocation().equals("shop"))
     {
@@ -131,7 +97,6 @@ public class GameUI
     else
     {
       System.out.println("Not a valid command.");
-      // reset output and input
       if (player.getCurrentLocation().equals("forest"))
         goToForest();
       else if (player.getCurrentLocation().equals("lake"))
@@ -141,12 +106,6 @@ public class GameUI
     }
   }
 
-  /*---------- Private Game Area methods ----------*/
-
-  /* Game Forest Area */
-  /**
-   * Take the player to the forest.
-   */
   private void goToForest()
   {
     System.out.println("");
@@ -155,7 +114,6 @@ public class GameUI
     setOutput("\nYou are in a forest. Where would you like to go?\n---- Enter command Lake(L), Shop(S), or Quit(Q): ");
   }
 
-  /* Game Shop Area */
   private void goToShop()
   {
     player.setCurrentLocation("shop");
@@ -166,7 +124,6 @@ public class GameUI
   private void buyBait()
   {
     Bait b = new Bait();
-
     if (player.roomInInventory())
     {
       if (player.getWallet() >= b.getCost())
@@ -185,7 +142,6 @@ public class GameUI
   private void buyHook()
   {
     Hook h = new Hook();
-
     if (player.roomInInventory())
     {
       if (player.getWallet() >= h.getCost())
@@ -216,17 +172,16 @@ public class GameUI
     }
     catch (IndexOutOfBoundsException iob)
     {
-      System.out.println("You do not have that many items in you inventory."); 
+      System.out.println("You do not have that many items in you inventory.");
       sellFish();
     }
     catch (NumberFormatException nf)
     {
-      System.out.println("Please enter a number for the location of your fish."); 
+      System.out.println("Please enter a number for the location of your fish.");
       sellFish();
     }
   }
 
-  /* Game Lake Area */
   public void goToLake()
   {
     player.setCurrentLocation("lake");
@@ -236,7 +191,6 @@ public class GameUI
 
   public void goFish()
   {
-    // generate a Lake full of new LakeObjects
     LakeObject[] lakeObjects = new LakeObject[4];
     lakeObjects[0] = new Fish();
     lakeObjects[1] = new Wallet();
@@ -245,16 +199,11 @@ public class GameUI
 
     if (player.hasHook() && player.hasBait())
     {
-      int i = (int) (Math.random() * lakeObjects.length) + 1;
+      int i = (int) (Math.random() * lakeObjects.length);
       Hook strongestHook = player.getStrongestHook();
       System.out.println("\n");
 
-      if (i >= lakeObjects.length)
-      {
-        System.out.println("\nYou lost your hook  :(");
-        player.updateInventory(new Hook(), false);
-      } 
-      else if (lakeObjects[i].wasCaught(strongestHook)) 
+      if (lakeObjects[i].wasCaught(strongestHook))
       {
         if (lakeObjects[i].getObjectName().equals("Wallet"))
         {
@@ -265,7 +214,7 @@ public class GameUI
         }
         else
         {
-          if(player.roomInInventory())
+          if (player.roomInInventory())
           {
             player.updateInventory(lakeObjects[i], true);
             System.out.println(lakeObjects[i].say());
