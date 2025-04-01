@@ -1,27 +1,41 @@
 /*
  * Activity 4.9.3 and 4.9.4
  * A text-based Fishing Game
+ *
+ * V1.0
+ * 6/20/2020
+ * Copyright(c) 2019 PLTW to present. All rights reserved
  */
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameUI
-import java.util.Scanner;
-import java.util.Scanner;
+{
+  // Utilities
+  Scanner console;
   private Player player;
 
+  /**
+   * Constructor for the GameUI class.
+   */
   public GameUI(Player player)
   {
     this.player = player;
     console = new Scanner(System.in);
   }
 
+  /*
+   * Append to the output area and prompt for input
+   */
   public void setOutput(String s)
   {
     System.out.print(s);
     getInput();
   }
 
+  /*
+   * Show inventory items
+   */
   public void printInventory()
   {
     System.out.println("\nYour current inventory is: ");
@@ -29,25 +43,36 @@ import java.util.Scanner;
 
     for (LakeObject item : inventoryItems)
     {
-      if(!item.equals("empty"))
+      if (!item.equals("empty"))
       {
-        System.out.println("\t" + item.getObjectName() + ": $"+ item.getCost());    
+        System.out.println("\t" + item.getObjectName() + ": $" + item.getCost());    
       }
     }
   }
 
+  /*
+   * Start the game
+   */
   public void playGame()
   {
     System.out.print("\nWelcome to the Fishing Game");
     goToForest();
   }
 
+  /*
+   * Get the user's command
+   */
   public void getInput()
   {
     String input = console.nextLine();
     execCommand(input);
   }
 
+  /*---------- Private Methods ----------*/
+
+  /**
+   * Execute the command entered by the player
+   */
   private void execCommand(String input)
   {
     if (input.equals("quit") || input.equals("q") || input.equals("Q"))
@@ -105,6 +130,8 @@ import java.util.Scanner;
         goToShop();
     }
   }
+
+  /*---------- Game Area Methods ----------*/
 
   private void goToForest()
   {
@@ -172,7 +199,7 @@ import java.util.Scanner;
     }
     catch (IndexOutOfBoundsException iob)
     {
-      System.out.println("You do not have that many items in you inventory.");
+      System.out.println("You do not have that many items in your inventory.");
       sellFish();
     }
     catch (NumberFormatException nf)
@@ -191,6 +218,7 @@ import java.util.Scanner;
 
   public void goFish()
   {
+    // Generate a lake full of new LakeObjects
     LakeObject[] lakeObjects = new LakeObject[4];
     lakeObjects[0] = new Fish();
     lakeObjects[1] = new Wallet();
@@ -199,7 +227,8 @@ import java.util.Scanner;
 
     if (player.hasHook() && player.hasBait())
     {
-      int i = (int) (Math.random() * lakeObjects.length);
+      // Generate a random index between 0 and 3 (valid array bounds)
+      int i = (int) (Math.random() * lakeObjects.length); // Fixed to avoid IndexOutOfBounds
       Hook strongestHook = player.getStrongestHook();
       System.out.println("\n");
 

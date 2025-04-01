@@ -7,7 +7,6 @@ public class FishingGameRunner
   {
     Player player = new Player();
     GameUI game = new GameUI(player);
-    // start the game
     game.playGame();
   }
 }
