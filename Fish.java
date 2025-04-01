@@ -3,5 +3,9 @@
  */
 public class Fish extends LakeObject
 {
-
+  @Override
+  public String say()
+  {
+    return "You caught a fish!";
+  }
 }
